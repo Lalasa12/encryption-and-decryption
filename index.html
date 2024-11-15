@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encryption and Decryption Tool</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+            background-color: #f4f4f9;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            margin-bottom: 10px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+        textarea, input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 600px) {
+            textarea, input, button {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Encryption and Decryption Tool</h1>
+        <label for="shiftValue">Enter Shift Value:</label>
+        <input type="number" id="shiftValue" value="3" min="1" max="25" placeholder="Shift value (e.g., 3)">
+        
+        <label for="inputText">Enter Text:</label>
+        <textarea id="inputText" placeholder="Type text to encrypt or decrypt..."></textarea>
+        
+        <button onclick="encryptText()">Encrypt</button>
+        <button onclick="decryptText()">Decrypt</button>
+        
+        <label for="outputText">Result:</label>
+        <textarea id="outputText" placeholder="Encrypted/Decrypted text will appear here..." readonly></textarea>
+    </div>
+
+    <script>
+        // Function to encrypt text
+        function encryptText() {
+            const input = document.getElementById("inputText").value;
+            const shift = parseInt(document.getElementById("shiftValue").value) || 0;
+            let encrypted = "";
+            
+            for (let i = 0; i < input.length; i++) {
+                const char = input[i];
+                if (char.match(/[a-z]/)) {
+                    encrypted += String.fromCharCode(((char.charCodeAt(0) - 97 + shift) % 26) + 97);
+                } else if (char.match(/[A-Z]/)) {
+                    encrypted += String.fromCharCode(((char.charCodeAt(0) - 65 + shift) % 26) + 65);
+                } else {
+                    encrypted += char; // Keep non-alphabetic characters as is
+                }
+            }
+            
+            document.getElementById("outputText").value = encrypted;
+        }
+
+        // Function to decrypt text
+        function decryptText() {
+            const input = document.getElementById("inputText").value;
+            const shift = parseInt(document.getElementById("shiftValue").value) || 0;
+            let decrypted = "";
+            
+            for (let i = 0; i < input.length; i++) {
+                const char = input[i];
+                if (char.match(/[a-z]/)) {
+                    decrypted += String.fromCharCode(((char.charCodeAt(0) - 97 - shift + 26) % 26) + 97);
+                } else if (char.match(/[A-Z]/)) {
+                    decrypted += String.fromCharCode(((char.charCodeAt(0) - 65 - shift + 26) % 26) + 65);
+                } else {
+                    decrypted += char; // Keep non-alphabetic characters as is
+                }
+            }
+            
+            document.getElementById("outputText").value = decrypted;
+        }
+    </script>
+</body>
+</html>
